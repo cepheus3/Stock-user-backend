@@ -1,13 +1,13 @@
-const user = require('../../Model/User');
-const jwt = require('jsonwebtoken');
-const otpModel = require('../../Model/Otp');
-const nodemailer = require('nodemailer');
+const user = require("../../Model/User");
+const jwt = require("jsonwebtoken");
+const otpModel = require("../../Model/Otp");
+const nodemailer = require("nodemailer");
 
 exports.signup = (req, res, next) => {
   user.findOne({ email: req.body.email }).then((data) => {
     if (data) {
       res.status(400).json({
-        error: 'email already exist',
+        error: "email already exist",
       });
     } else {
       const _user = new user({
@@ -25,7 +25,7 @@ exports.signup = (req, res, next) => {
         })
         .catch((err) => {
           res.status(400).json({
-            message: err,
+            message: "new error found",
           });
         });
     }
@@ -35,10 +35,10 @@ exports.signup = (req, res, next) => {
     const otP = `${Math.floor(100000 + Math.random() * 900000)}`;
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
-        user: 'natymok1010@gmail.com', // generated ethereal user
-        pass: 'zhawqlemfkpqyccb', // generated ethereal password
+        user: "natymok1010@gmail.com", // generated ethereal user
+        pass: "zhawqlemfkpqyccb", // generated ethereal password
       },
     });
 
@@ -46,7 +46,7 @@ exports.signup = (req, res, next) => {
     let mailoption = {
       from: '"Ethio Stock  👻" <natymok1010@gmail.com>', // sender address
       to: email,
-      subject: 'Verify Your Email ✔', // Subject line
+      subject: "Verify Your Email ✔", // Subject line
       html: `<p> Enter <b> ${otP} </b>  in the app to verify Your Email  <b>This code</b> expires after 1 hour</p>`, // html body
     };
 
@@ -66,7 +66,7 @@ exports.signup = (req, res, next) => {
               if (data) {
                 console.log(data);
                 res.status(200).json({
-                  message: 'we have sent otp to your email check your email',
+                  message: "we have sent otp to your email check your email",
                 });
               }
             })
@@ -79,7 +79,7 @@ exports.signup = (req, res, next) => {
       })
       .catch((err) => {
         res.status(400).json({
-          error: 'otp save error',
+          error: "otp save error",
         });
       });
   };

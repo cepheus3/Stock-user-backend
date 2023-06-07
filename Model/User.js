@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,9 +25,15 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
 
+    balance: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+
     role: {
       type: String,
-      default: 'user',
+      default: "user",
     },
 
     verified: {
@@ -37,7 +43,7 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
   next();
@@ -47,4 +53,4 @@ userSchema.method({
     return bcrypt.compareSync(userpassword, this.password);
   },
 });
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);

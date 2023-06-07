@@ -1,8 +1,8 @@
-const user = require('../../Model/User');
-const jwt = require('jsonwebtoken');
+const user = require("../../Model/User");
+const jwt = require("jsonwebtoken");
 exports.Signin = (req, res) => {
   const signtoken = (id) => {
-    const token = jwt.sign({ id }, 'the net ninja', { expiresIn: '1y' });
+    const token = jwt.sign({ id }, "the net ninja", { expiresIn: "1y" });
     return token;
   };
   user
@@ -15,13 +15,16 @@ exports.Signin = (req, res) => {
           if (data.authenticate(req.body.password)) {
             const _token = signtoken(data._id);
             res.status(200).json({
-              message: 'sucessfully sined',
+              message: "sucessfully signed in",
               user: _token,
               email: data.email,
+              firstname: data.firstName,
+              lastname: data.lastName,
+              balance: data.balance,
             });
           } else {
             res.status(400).json({
-              error: 'wrong password',
+              error: "wrong password",
             });
           }
         } else {
@@ -30,11 +33,11 @@ exports.Signin = (req, res) => {
             .then((data) => {
               if (data) {
                 res.status(400).json({
-                  error: 'user email not verified sign up agin',
+                  error: "user email not verified sign up agin",
                 });
               } else {
                 res.status(400).json({
-                  error: ' something went wrong',
+                  error: " something went wrong",
                 });
               }
             })
@@ -46,13 +49,13 @@ exports.Signin = (req, res) => {
         }
       } else {
         res.status(400).json({
-          error: 'user not found',
+          error: "user not found",
         });
       }
     })
     .catch((err) => {
       res.status(400).json({
-        error: ' something went wrong',
+        error: " something went wrong",
       });
     });
 };
