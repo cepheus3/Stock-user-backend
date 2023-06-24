@@ -9,7 +9,7 @@ const axios = require("axios").default;
 //const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 require("dotenv").config();
 
-const Chapa = require('chapa')
+const Chapa = require("chapa");
 
 mongoose.set("strictQuery", true);
 mongoose
@@ -28,7 +28,7 @@ mongoose
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "*",
   })
 );
 
@@ -123,35 +123,30 @@ app.get("/api/payment-success", async (req, res) => {
 }); */
 // CHAPA END
 
-
 /* CHAPA LIABRARY */
 
 const chapa = new Chapa({
-  secretKey: 'your-chapa-secret-key',
+  secretKey: "your-chapa-secret-key",
 });
 
 app.post("/api/addtowallet", async (req, res) => {
   const tx_ref = await chapa.generateTransactionReference(); // result: TX-JHBUVLM7HYMSWDA
 
   const response = await chapa.initialize({
-    first_name: 'John',
-    last_name: 'Doe',
-    email: 'john@gmail.com',
-    currency: 'ETB',
-    amount: '200',
+    first_name: "John",
+    last_name: "Doe",
+    email: "john@gmail.com",
+    currency: "ETB",
+    amount: "200",
     tx_ref: tx_ref,
-    callback_url: 'https://example.com/',
-    return_url: 'https://example.com/',
+    callback_url: "https://example.com/",
+    return_url: "https://example.com/",
     customization: {
-      title: 'Test Title',
-      description: 'Test Description',
+      title: "Test Title",
+      description: "Test Description",
     },
   });
-
-  
-})
-
-
+});
 
 /* CHAPA LIABRARY END */
 
